@@ -1,0 +1,12 @@
+body {
+    margin: 1em .5em;
+}
+
+input[type=search] {
+    font-size: 1.2em;
+}
+
+#note {
+    margin: 1em 0;
+    color: green;
+}

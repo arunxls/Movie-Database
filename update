@@ -1,0 +1,48 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Filter qw(filter);
+use Movie;
+use Collection;
+
+use File::Spec;
+use File::Path qw(make_path);
+use Data::Dumper;
+
+use Log::Log4perl qw(:easy);
+Log::Log4perl->easy_init(
+    {   level  => $INFO,
+        layout => '%p> %m%n'
+    }
+);
+
+use constant TEST_PATH => 'foo';
+
+my @movies = (
+	'L.A. Confidential',
+	'Leaves of Grass',
+	'Lethal Weapon 2',
+	'Lock, Stock and Two Smoking Barrels',
+	'Looking for Richard',
+	'My Fellow Americans',
+	'Raavan',
+);
+
+create_test_dirs(TEST_PATH,\@movies);
+
+my $collection = Collection->new('path' => 'foo', 'type' => 'Movies');
+$collection->update_video_info();
+
+# print Dumper $collection->_schema->{collection};
+
+sub create_test_dirs{
+	my ($path,$movies) = @_;
+
+	foreach my $movie (@{$movies}) {
+		make_path(File::Spec->catfile($path,$movie));
+	}
+}
+
+1;
